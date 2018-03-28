@@ -3,13 +3,13 @@ import os
 from xml.sax.saxutils import unescape
 from bs4 import BeautifulSoup as bs
 
-
 cnpj_cliente = os.environ['CNPJ']
 passwd_cliente = os.environ['PASSWORD']
 
-url = "http://www.jadlog.com.br:8080/JadlogEdiWs/services/ValorFreteBean?method=valorar"
+url = "http://www.jadlog.com.br:8080/JadlogEdiWs/services/" + \
+      "ValorFreteBean?method=valorar"
+
 headers = {'content-type': 'text/xml'}
-# headers = {'content-type': 'application/soap+xml'}
 
 
 def calcula_peso_real(largura, altura, profundidade, modalidade, peso):
@@ -20,7 +20,7 @@ def calcula_peso_real(largura, altura, profundidade, modalidade, peso):
     :param profundidade: Profundidade em centímetros
     :param modalidade: Modalidade (0 - Expresso / 4 - Rodoviário)
     :param peso: Em Kg (Ex.: 27)
-    :return: Peso real de cubagem para Jadlog 
+    :return: Peso real de cubagem para Jadlog
     """
     peso_cubagem = 0
     # Modalidade 0 = Expresso
@@ -117,8 +117,6 @@ def calcula_frete(largura, altura, profundidade, peso, cep_o, cep_d, valor_nf):
         peso_real_rodoviario = peso
     else:
         peso_real_rodoviario = peso_cubagem_rodoviario
-
-    url = "http://www.jadlog.com.br:8080/JadlogEdiWs/services/ValorFreteBean?method=valorar"
 
     parametros_expresso = {'vModalidade': 0,
                            'Password': passwd_cliente,
