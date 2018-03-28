@@ -66,7 +66,7 @@ def frete_expresso(largura, altura, profundidade, peso, cepo, cepd, valor_nf):
                   'vPeso': peso_real,
                   'vFrap': 'N',
                   'vEntrega': 'D',
-                  'vCnpj': passwd_cliente}
+                  'vCnpj': cnpj_cliente}
 
     response = requests.get(url, parametros)
     return response.content
@@ -128,7 +128,7 @@ def calcula_frete(largura, altura, profundidade, peso, cep_o, cep_d, valor_nf):
                            'vPeso': peso_real_expresso,
                            'vFrap': 'N',
                            'vEntrega': 'D',
-                           'vCnpj': passwd_cliente}
+                           'vCnpj': cnpj_cliente}
 
     parametros_rodoviario = {'vModalidade': 0,
                              'Password': passwd_cliente,
@@ -140,7 +140,7 @@ def calcula_frete(largura, altura, profundidade, peso, cep_o, cep_d, valor_nf):
                              'vPeso': peso_real_rodoviario,
                              'vFrap': 'N',
                              'vEntrega': 'D',
-                             'vCnpj': passwd_cliente}
+                             'vCnpj': cnpj_cliente}
 
     response_expresso = requests.get(url, parametros_expresso)
     response_rodoviario = requests.get(url, parametros_rodoviario)
