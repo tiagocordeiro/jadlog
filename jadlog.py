@@ -150,6 +150,8 @@ def calcula_frete(largura, altura, profundidade, peso, cep_o, cep_d, valor_nf):
 
 if __name__ == '__main__':
     print('0Oo..oO0')
-    frete_rodoviario = frete_rodoviario(72, 44, 62, 27, '09220700', '48602575',
+    frete_rodoviario = frete_rodoviario(72, 44, 62, 27,
+                                        '09220700',
+                                        '48602575',
                                         2450)
     print(frete_rodoviario)
