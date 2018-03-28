@@ -1,0 +1,6 @@
+[
+  "test_peso_cubagem.py::test_peso_cubagem_expresso",
+  "test_peso_cubagem.py::test_peso_cubagem_rodoviario",
+  "test_peso_cubagem.py::test_peso_cubagem_expresso_round",
+  "test_peso_cubagem.py::test_peso_cubagem_rodoviario_round"
+]
