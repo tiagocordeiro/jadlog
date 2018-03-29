@@ -1,4 +1,4 @@
-from jadlog import frete_rodoviario, frete_expresso
+from jadlog.jadlog import frete_rodoviario, frete_expresso
 
 
 def test_frete_rodoviario():

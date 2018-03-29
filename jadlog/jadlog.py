@@ -40,6 +40,21 @@ def calcula_peso_real(largura, altura, profundidade, modalidade, peso):
 
 
 def calcula_peso_cubagem(largura, altura, profundidade):
+    """
+    Função para calculo de peso de cubagem. Caso o peso de cubagem for maior
+    que o peso real, este é utilizado para calculo do frete.
+
+    Exemplo: um Equipamento que pesa 27 Kg e tem as seguintes dimensões:
+    72cm x 44cm x 62cm ficaria com:
+    32.74Kg na modalidade Expresso e
+    58.93Kg na modalidade Rodoviário
+
+
+    :param largura: em centímetros
+    :param altura: em centímetros
+    :param profundidade: em centímetros
+    :return: Retorna um dicionário com os pesos de cubagem.
+    """
     peso_cubagem_expresso = largura * altura * profundidade / 6000
     peso_cubagem_rodoviario = largura * altura * profundidade / 3333
 
@@ -48,6 +63,18 @@ def calcula_peso_cubagem(largura, altura, profundidade):
 
 
 def frete_expresso(largura, altura, profundidade, peso, cepo, cepd, valor_nf):
+    """
+    Função que retorna o valor do frete para a modalidade Expresso
+
+    :param largura: em centímetros
+    :param altura: em centímetros
+    :param profundidade: em centímetros
+    :param peso: em Kg
+    :param cepo: CEP de origem (Ex: 09220700)
+    :param cepd: CEP de destino (Ex: 09210700)
+    :param valor_nf: Valor da nota fiscal (Ex: 2450)
+    :return: Retorna uma string com o valor do frete em BRL (reais)
+    """
     cubagem = calcula_peso_cubagem(largura, altura, profundidade)
     cubagem_expresso = cubagem['Cubagem Expresso']
 
@@ -78,6 +105,18 @@ def frete_expresso(largura, altura, profundidade, peso, cepo, cepd, valor_nf):
 
 def frete_rodoviario(largura, altura, profundidade, peso, cepo, cepd,
                      valor_nf):
+    """
+    Função que retorna o valor do frete para a modalidade Rodoviário
+
+    :param largura: em centímetros
+    :param altura: em centímetros
+    :param profundidade: em centímetros
+    :param peso: em Kg
+    :param cepo: CEP de origem (Ex: 09220700)
+    :param cepd: CEP de destino (Ex: 09210700)
+    :param valor_nf: Valor da nota fiscal (Ex: 2450)
+    :return: Retorna uma string com o valor do frete em BRL (reais)
+    """
     cubagem = calcula_peso_cubagem(largura, altura, profundidade)
     cubagem_rodoviario = cubagem['Cubagem Rodoviario']
 
@@ -107,6 +146,18 @@ def frete_rodoviario(largura, altura, profundidade, peso, cepo, cepd,
 
 
 def calcula_frete(largura, altura, profundidade, peso, cep_o, cep_d, valor_nf):
+    """
+    Função que retorna o valor do frete para modalidades expresso e rodoviário
+
+    :param largura: em centímetros
+    :param altura: em centímetros
+    :param profundidade: em centímetros
+    :param peso: em Kg
+    :param cepo: CEP de origem (Ex: 09220700)
+    :param cepd: CEP de destino (Ex: 09210700)
+    :param valor_nf: Valor da nota fiscal (Ex: 2450)
+    :return: Retorna XML
+    """
     peso_cubagem = calcula_peso_cubagem(largura, altura, profundidade)
 
     peso_cubagem_expresso = peso_cubagem['Cubagem Expresso']
@@ -166,3 +217,10 @@ if __name__ == '__main__':
                                     '09210700',
                                     2450)
     print(frete_expresso)
+
+    print('0Oo..oO0 Frete Expresso e Rodoviáreio')
+    frete_geral = calcula_frete(72, 44, 62, 27,
+                                '09220700',
+                                '09210700',
+                                2450)
+    print(frete_geral)

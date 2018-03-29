@@ -1,4 +1,4 @@
-from jadlog import calcula_peso_cubagem
+from jadlog.jadlog import calcula_peso_cubagem
 
 
 def test_peso_cubagem_expresso():
