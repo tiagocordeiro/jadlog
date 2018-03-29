@@ -162,7 +162,7 @@ if __name__ == '__main__':
 
     print('0Oo..oO0 Frete Expresso')
     frete_expresso = frete_expresso(72, 44, 62, 27,
-                                        '09220700',
-                                        '09210700',
-                                        2450)
+                                    '09220700',
+                                    '09210700',
+                                    2450)
     print(frete_expresso)
