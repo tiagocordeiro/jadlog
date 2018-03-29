@@ -68,8 +68,12 @@ def frete_expresso(largura, altura, profundidade, peso, cepo, cepd, valor_nf):
                   'vEntrega': 'D',
                   'vCnpj': cnpj_cliente}
 
-    response = requests.get(url, parametros)
-    return response.content
+    response = requests.get(url, parametros, headers=headers)
+    response_tratado = unescape(response.text)
+    soup = bs(response_tratado, "html.parser")
+    retorno = soup.findAll('retorno')
+    valor_frete = retorno[0].get_text()
+    return valor_frete
 
 
 def frete_rodoviario(largura, altura, profundidade, peso, cepo, cepd,
@@ -149,9 +153,16 @@ def calcula_frete(largura, altura, profundidade, peso, cep_o, cep_d, valor_nf):
 
 
 if __name__ == '__main__':
-    print('0Oo..oO0')
+    print('0Oo..oO0 Frete Rodoviário')
     frete_rodoviario = frete_rodoviario(72, 44, 62, 27,
                                         '09220700',
                                         '48602575',
                                         2450)
     print(frete_rodoviario)
+
+    print('0Oo..oO0 Frete Expresso')
+    frete_expresso = frete_expresso(72, 44, 62, 27,
+                                        '09220700',
+                                        '09210700',
+                                        2450)
+    print(frete_expresso)
