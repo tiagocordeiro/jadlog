@@ -3,6 +3,7 @@ import os
 import sys
 from distutils.util import convert_path
 from fnmatch import fnmatchcase
+from os import path
 
 from setuptools import setup, find_packages
 
@@ -113,6 +114,9 @@ AUTHOR = "Tiago Cordeiro"
 AUTHOR_EMAIL = "tiago@mulhergorila.com"
 URL = "https://github.com/tiagocordeiro/jadlog"
 VERSION = __import__(PACKAGE).__version__
+
+
+here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
