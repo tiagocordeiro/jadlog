@@ -114,11 +114,15 @@ AUTHOR_EMAIL = "tiago@mulhergorila.com"
 URL = "https://github.com/tiagocordeiro/jadlog"
 VERSION = __import__(PACKAGE).__version__
 
+# Get the long description from the README file
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(
     name=NAME,
     version=VERSION,
     description=DESCRIPTION,
-    long_description=URL,
+    long_description=long_description,
     long_description_content_type="text/markdown",
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,

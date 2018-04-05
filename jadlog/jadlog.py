@@ -15,6 +15,11 @@ headers = {'content-type': 'text/xml'}
 def calcula_peso_real(largura, altura, profundidade, modalidade, peso):
     """
     Função que retorna o peso de cubagem para calculo de freter via Jadlog
+
+    # Modalidades de Frete
+    # Modalidade 0 = Expresso
+    # Modalidade 4 = Rodoviário
+
     :param largura: Largura em centímetros
     :param altura: Altura em centímetros
     :param profundidade: Profundidade em centímetros
@@ -23,8 +28,6 @@ def calcula_peso_real(largura, altura, profundidade, modalidade, peso):
     :return: Peso real de cubagem para Jadlog
     """
     peso_cubagem = 0
-    # Modalidade 0 = Expresso
-    # Modalidade 4 = Rodoviário
     if modalidade == '0':
         peso_cubagem = largura * altura * profundidade / 6000
     if modalidade == '4':
@@ -48,6 +51,13 @@ def calcula_peso_cubagem(largura, altura, profundidade):
     72cm x 44cm x 62cm ficaria com:
     32.74Kg na modalidade Expresso e
     58.93Kg na modalidade Rodoviário
+
+    >>> calcula_peso_cubagem(72, 44, 62)
+    {'Cubagem Expresso': 31.248, 'Cubagem Rodoviario': 56.25202520252025}
+    >>> cubagens = calcula_peso_cubagem(72, 44, 62)
+    >>> cubagem_expresso = cubagens['Cubagem Expresso']
+    >>> cubagem_expresso
+    31.248
 
 
     :param largura: em centímetros
