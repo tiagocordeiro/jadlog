@@ -236,27 +236,33 @@ def consulta(pedido):
 
 
 if __name__ == '__main__':
-    # print('0Oo..oO0 Frete Rodoviário')
-    # frete_rodoviario = frete_rodoviario(72, 44, 62, 27,
-    #                                     '09220700',
-    #                                     '48602575',
-    #                                     2450)
-    # print(frete_rodoviario)
-    #
-    # print('0Oo..oO0 Frete Expresso')
-    # frete_expresso = frete_expresso(72, 44, 62, 27,
-    #                                 '09220700',
-    #                                 '09210700',
-    #                                 2450)
-    # print(frete_expresso)
+    pesocubagem = calcula_peso_cubagem(20,20,136)
+    print(pesocubagem)
+
+
+    print('0Oo..oO0 Frete Rodoviário')
+    frete_rodoviario = frete_rodoviario(20, 20, 136, 10,
+                                        '09220700',
+                                        '29215005',
+                                        2599.99)
+    print(frete_rodoviario)
+
+
+    print('0Oo..oO0 Frete Expresso')
+    frete_expresso = frete_expresso(20, 20, 136, 10,
+                                    '09220700',
+                                    '29215005',
+                                    2599.99)
+    print(frete_expresso)
+
     #
     # print('0Oo..oO0 Frete Expresso e Rodoviáreio')
-    # frete_geral = calcula_frete(72, 44, 62, 27,
+    # frete_geral = calcula_frete(20, 20, 136, 10,
     #                             '09220700',
-    #                             '09210700',
+    #                             '29215005',
     #                             2450)
     # print(frete_geral)
 
-    print('0Oo..oO0 Eventos do pedido')
-    eventos = consulta('10083675042426')
-    print(eventos)
+    # print('0Oo..oO0 Eventos do pedido')
+    # eventos = consulta('10083675042426')
+    # print(eventos)
