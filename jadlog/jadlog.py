@@ -6,8 +6,11 @@ from bs4 import BeautifulSoup as bs
 cnpj_cliente = os.environ['CNPJ']
 passwd_cliente = os.environ['PASSWORD']
 
-url = "http://www.jadlog.com.br:8080/JadlogEdiWs/services/" + \
-      "ValorFreteBean?method=valorar"
+url_cotacao = "http://www.jadlog.com.br:8080/JadlogEdiWs/services/" + \
+              "ValorFreteBean?method=valorar"
+
+url_consulta = "http://www.jadlog.com.br:8080/JadlogEdiWs/services/" + \
+               "TrackingBean?method=consultar"
 
 headers = {'content-type': 'text/xml'}
 
@@ -105,7 +108,7 @@ def frete_expresso(largura, altura, profundidade, peso, cepo, cepd, valor_nf):
                   'vEntrega': 'D',
                   'vCnpj': cnpj_cliente}
 
-    response = requests.get(url, parametros, headers=headers)
+    response = requests.get(url_cotacao, parametros, headers=headers)
     response_tratado = unescape(response.text)
     soup = bs(response_tratado, "html.parser")
     retorno = soup.findAll('retorno')
@@ -147,7 +150,7 @@ def frete_rodoviario(largura, altura, profundidade, peso, cepo, cepd,
                   'vEntrega': 'D',
                   'vCnpj': cnpj_cliente}
 
-    response = requests.get(url, parametros, headers=headers)
+    response = requests.get(url_cotacao, parametros, headers=headers)
     response_tratado = unescape(response.text)
     soup = bs(response_tratado, "html.parser")
     retorno = soup.findAll('retorno')
@@ -207,30 +210,59 @@ def calcula_frete(largura, altura, profundidade, peso, cep_o, cep_d, valor_nf):
                              'vEntrega': 'D',
                              'vCnpj': cnpj_cliente}
 
-    response_expresso = requests.get(url, parametros_expresso)
-    response_rodoviario = requests.get(url, parametros_rodoviario)
+    response_expresso = requests.get(url_cotacao, parametros_expresso)
+    response_rodoviario = requests.get(url_cotacao, parametros_rodoviario)
 
     return {response_expresso.content, response_rodoviario.content}
 
 
+def consulta(pedido):
+    parametros_consulta = {'CodCliente': cnpj_cliente,
+                           'Password': passwd_cliente,
+                           'NDs': pedido}
+
+    response_consulta = requests.get(url_consulta, parametros_consulta)
+    response_tratado = unescape(response_consulta.text)
+    soup = bs(response_tratado, "html.parser")
+    eventos = soup.findAll('evento')
+
+    for evento in soup.findAll('evento'):
+        datahora = evento.find('datahoraevento').get_text()
+        descricao = evento.find('descricao').get_text()
+        observacao = evento.find('observacao').get_text()
+        print(f'🚚 {datahora} - {descricao} - {observacao}')
+
+    # return eventos
+
+
 if __name__ == '__main__':
+    pesocubagem = calcula_peso_cubagem(20,20,136)
+    print(pesocubagem)
+
+
     print('0Oo..oO0 Frete Rodoviário')
-    frete_rodoviario = frete_rodoviario(72, 44, 62, 27,
+    frete_rodoviario = frete_rodoviario(20, 20, 136, 10,
                                         '09220700',
-                                        '48602575',
-                                        2450)
+                                        '29215005',
+                                        2599.99)
     print(frete_rodoviario)
 
+
     print('0Oo..oO0 Frete Expresso')
-    frete_expresso = frete_expresso(72, 44, 62, 27,
+    frete_expresso = frete_expresso(20, 20, 136, 10,
                                     '09220700',
-                                    '09210700',
-                                    2450)
+                                    '29215005',
+                                    2599.99)
     print(frete_expresso)
 
-    print('0Oo..oO0 Frete Expresso e Rodoviáreio')
-    frete_geral = calcula_frete(72, 44, 62, 27,
-                                '09220700',
-                                '09210700',
-                                2450)
-    print(frete_geral)
+    #
+    # print('0Oo..oO0 Frete Expresso e Rodoviáreio')
+    # frete_geral = calcula_frete(20, 20, 136, 10,
+    #                             '09220700',
+    #                             '29215005',
+    #                             2450)
+    # print(frete_geral)
+
+    # print('0Oo..oO0 Eventos do pedido')
+    # eventos = consulta('10083675042426')
+    # print(eventos)
