@@ -1,5 +1,5 @@
 pytest==3.5.0
-more-itertools==4.1.0
+more-itertools==4.2.0
 six==1.11.0
 py==1.5.3
 attrs==18.1.0
