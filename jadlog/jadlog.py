@@ -232,13 +232,12 @@ def consulta(pedido):
         observacao = evento.find('observacao').get_text()
         print(f'🚚 {datahora} - {descricao} - {observacao}')
 
-    # return eventos
+    return eventos
 
 
 if __name__ == '__main__':
-    pesocubagem = calcula_peso_cubagem(20,20,136)
+    pesocubagem = calcula_peso_cubagem(20, 20, 136)
     print(pesocubagem)
-
 
     print('0Oo..oO0 Frete Rodoviário')
     frete_rodoviario = frete_rodoviario(20, 20, 136, 10,
@@ -246,7 +245,6 @@ if __name__ == '__main__':
                                         '29215005',
                                         2599.99)
     print(frete_rodoviario)
-
 
     print('0Oo..oO0 Frete Expresso')
     frete_expresso = frete_expresso(20, 20, 136, 10,
