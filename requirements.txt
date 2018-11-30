@@ -1,6 +1,6 @@
 attrs==18.1.0
 beautifulsoup4==4.6.0
-certifi==2018.4.16
+certifi==2018.11.29
 chardet==3.0.4
 idna==2.7
 more-itertools==4.2.0
