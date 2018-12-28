@@ -1,10 +1,14 @@
-import requests
 import os
 from xml.sax.saxutils import unescape
-from bs4 import BeautifulSoup as bs
 
-cnpj_cliente = os.environ['CNPJ']
-passwd_cliente = os.environ['PASSWORD']
+import requests
+from bs4 import BeautifulSoup as bs
+from dotenv import load_dotenv
+
+load_dotenv()
+
+cnpj_cliente = os.getenv("CNPJ")
+passwd_cliente = os.getenv("PASSWORD")
 
 url_cotacao = "http://www.jadlog.com.br:8080/JadlogEdiWs/services/" + \
               "ValorFreteBean?method=valorar"
