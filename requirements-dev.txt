@@ -11,7 +11,7 @@ pycodestyle==2.4.0
 pydotenv==0.0.7
 setuptools==40.6.3
 wheel==0.32.3
-Pygments==2.3.1
+Pygments==2.5.2
 bleach==3.0.2
 docutils==0.14
 pkginfo==1.4.2
