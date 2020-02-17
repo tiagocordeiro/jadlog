@@ -2,7 +2,7 @@ attrs==18.2.0
 beautifulsoup4==4.6.3
 certifi==2018.11.29
 chardet==3.0.4
-idna==2.8
+idna==2.9
 more-itertools==5.0.0
 pluggy==0.8.0
 requests==2.21.0
