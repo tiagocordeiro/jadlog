@@ -20,3 +20,11 @@ Você vai precisar para calculo do frete e peso de cubagem:
     * Usuário (CNPJ)
     * Senha
 
+```shell
+$ python
+>>> from jadlog.calcula import peso_cubagem
+>>> peso_cubagem(72, 44, 62)
+{'Cubagem Expresso': 32.736, 'Cubagem Rodoviario': 58.93069306930693}
+
+>>>
+```
