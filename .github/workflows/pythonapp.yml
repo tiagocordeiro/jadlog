@@ -24,6 +24,10 @@ jobs:
       run: |
         pycodestyle .
     - name: Test with coverage
+      env:
+        DYNACONF_CNPJ: ${{ secrets.DYNACONF_CNPJ }}
+        DYNACONF_PASSWORD: ${{ secrets.DYNACONF_PASSWORD }}
+        DYNACONF_EVENTS_MOCK: ${{ secrets.DYNACONF_EVENTS_MOCK }}
       run: |
         coverage run -m pytest -v --doctest-glob='*.md'
     - name: Posting Coverage
