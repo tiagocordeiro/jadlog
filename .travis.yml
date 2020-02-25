@@ -1,13 +1,15 @@
 language: python
 python:
-  - "3.6.4"
+  - "3.8-dev"
 # command to install dependencies
-install: "pip install -r requirements-dev.txt"
+install:
+  - cp contrib/env-sample .env
+  - pip install -r requirements-dev.txt codecov
 # command to run tests
 script:
-  - flake8 jadlog.py
-  - pytest tests/
-#  - py.test --cov=pytocli tests/
-#  - python -m doctest README.md
-# after_success:
-#  - coveralls
+  - flake8 .
+  - pycodestyle .
+  - coverage run -m pytest -v --doctest-glob='*.md'
+#  - python -m doctest README.md jadlog/*.py -v
+ after_success:
+  - codecov

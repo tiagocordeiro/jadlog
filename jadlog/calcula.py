@@ -1,25 +1,22 @@
-import os
-from xml.sax.saxutils import unescape
+from html import unescape
 
 import requests
 from bs4 import BeautifulSoup as bs
-from dotenv import load_dotenv
+from dynaconf import settings
 
-load_dotenv()
+cnpj_cliente = settings.CNPJ
+passwd_cliente = settings.PASSWORD
 
-cnpj_cliente = os.getenv("CNPJ")
-passwd_cliente = os.getenv("PASSWORD")
+url_cotacao = "http://www.jadlog.com.br:8080/JadlogEdiWs/services" \
+              "/ValorFreteBean?method=valorar "
 
-url_cotacao = "http://www.jadlog.com.br:8080/JadlogEdiWs/services/" + \
-              "ValorFreteBean?method=valorar"
-
-url_consulta = "http://www.jadlog.com.br:8080/JadlogEdiWs/services/" + \
-               "TrackingBean?method=consultar"
+url_consulta = "http://www.jadlog.com.br:8080/JadlogEdiWs/services" \
+               "/TrackingBean?method=consultar "
 
 headers = {'content-type': 'text/xml'}
 
 
-def calcula_peso_real(largura, altura, profundidade, modalidade, peso):
+def peso_real(largura, altura, profundidade, modalidade, peso):
     """
     Função que retorna o peso de cubagem para calculo de freter via Jadlog
 
@@ -34,22 +31,22 @@ def calcula_peso_real(largura, altura, profundidade, modalidade, peso):
     :param peso: Em Kg (Ex.: 27)
     :return: Peso real de cubagem para Jadlog
     """
-    peso_cubagem = 0
+    _peso_cubagem = 0
     if modalidade == '0':
-        peso_cubagem = largura * altura * profundidade / 6000
+        _peso_cubagem = largura * altura * profundidade / 6000
     if modalidade == '4':
-        peso_cubagem = largura * altura * profundidade / 3333
+        _peso_cubagem = largura * altura * profundidade / 3333
 
     # Se o peso de cubagem for maior do que o real, ele deve ser usado
-    if peso_cubagem > peso:
-        peso_real = peso_cubagem
+    if _peso_cubagem > peso:
+        _peso_real = _peso_cubagem
     else:
-        peso_real = peso
+        _peso_real = peso
 
-    return peso_real
+    return _peso_real
 
 
-def calcula_peso_cubagem(largura, altura, profundidade):
+def peso_cubagem(largura, altura, profundidade):
     """
     Função para calculo de peso de cubagem. Caso o peso de cubagem for maior
     que o peso real, este é utilizado para calculo do frete.
@@ -59,12 +56,12 @@ def calcula_peso_cubagem(largura, altura, profundidade):
     32.74Kg na modalidade Expresso e
     58.93Kg na modalidade Rodoviário
 
-    >>> calcula_peso_cubagem(72, 44, 62)
-    {'Cubagem Expresso': 31.248, 'Cubagem Rodoviario': 56.25202520252025}
-    >>> cubagens = calcula_peso_cubagem(72, 44, 62)
+    >>> peso_cubagem(72, 44, 62)
+    {'Cubagem Expresso': 32.736, 'Cubagem Rodoviario': 58.93069306930693}
+    >>> cubagens = peso_cubagem(72, 44, 62)
     >>> cubagem_expresso = cubagens['Cubagem Expresso']
     >>> cubagem_expresso
-    31.248
+    32.736
 
 
     :param largura: em centímetros
@@ -92,13 +89,13 @@ def frete_expresso(largura, altura, profundidade, peso, cepo, cepd, valor_nf):
     :param valor_nf: Valor da nota fiscal (Ex: 2450)
     :return: Retorna uma string com o valor do frete em BRL (reais)
     """
-    cubagem = calcula_peso_cubagem(largura, altura, profundidade)
+    cubagem = peso_cubagem(largura, altura, profundidade)
     cubagem_expresso = cubagem['Cubagem Expresso']
 
     if cubagem_expresso > peso:
-        peso_real = cubagem_expresso
+        _peso_real = cubagem_expresso
     else:
-        peso_real = peso
+        _peso_real = peso
 
     parametros = {'vModalidade': 0,
                   'Password': passwd_cliente,
@@ -107,7 +104,7 @@ def frete_expresso(largura, altura, profundidade, peso, cepo, cepd, valor_nf):
                   'vVlColeta': '0,0',
                   'vCepOrig': cepo,
                   'vCepDest': cepd,
-                  'vPeso': peso_real,
+                  'vPeso': _peso_real,
                   'vFrap': 'N',
                   'vEntrega': 'D',
                   'vCnpj': cnpj_cliente}
@@ -134,13 +131,13 @@ def frete_rodoviario(largura, altura, profundidade, peso, cepo, cepd,
     :param valor_nf: Valor da nota fiscal (Ex: 2450)
     :return: Retorna uma string com o valor do frete em BRL (reais)
     """
-    cubagem = calcula_peso_cubagem(largura, altura, profundidade)
+    cubagem = peso_cubagem(largura, altura, profundidade)
     cubagem_rodoviario = cubagem['Cubagem Rodoviario']
 
     if cubagem_rodoviario > peso:
-        peso_real = cubagem_rodoviario
+        _peso_real = cubagem_rodoviario
     else:
-        peso_real = peso
+        _peso_real = peso
 
     parametros = {'vModalidade': 4,
                   'Password': passwd_cliente,
@@ -149,7 +146,7 @@ def frete_rodoviario(largura, altura, profundidade, peso, cepo, cepd,
                   'vVlColeta': '0,0',
                   'vCepOrig': cepo,
                   'vCepDest': cepd,
-                  'vPeso': peso_real,
+                  'vPeso': _peso_real,
                   'vFrap': 'N',
                   'vEntrega': 'D',
                   'vCnpj': cnpj_cliente}
@@ -162,7 +159,7 @@ def frete_rodoviario(largura, altura, profundidade, peso, cepo, cepd,
     return valor_frete
 
 
-def calcula_frete(largura, altura, profundidade, peso, cep_o, cep_d, valor_nf):
+def frete(largura, altura, profundidade, peso, cep_o, cep_d, valor_nf):
     """
     Função que retorna o valor do frete para modalidades expresso e rodoviário
 
@@ -175,10 +172,10 @@ def calcula_frete(largura, altura, profundidade, peso, cep_o, cep_d, valor_nf):
     :param valor_nf: Valor da nota fiscal (Ex: 2450)
     :return: Retorna XML
     """
-    peso_cubagem = calcula_peso_cubagem(largura, altura, profundidade)
+    cubagem = peso_cubagem(largura, altura, profundidade)
 
-    peso_cubagem_expresso = peso_cubagem['Cubagem Expresso']
-    peso_cubagem_rodoviario = peso_cubagem['Cubagem Rodoviario']
+    peso_cubagem_expresso = cubagem['Cubagem Expresso']
+    peso_cubagem_rodoviario = cubagem['Cubagem Rodoviario']
 
     if peso > peso_cubagem_expresso:
         peso_real_expresso = peso
@@ -218,53 +215,3 @@ def calcula_frete(largura, altura, profundidade, peso, cep_o, cep_d, valor_nf):
     response_rodoviario = requests.get(url_cotacao, parametros_rodoviario)
 
     return {response_expresso.content, response_rodoviario.content}
-
-
-def consulta(pedido):
-    parametros_consulta = {'CodCliente': cnpj_cliente,
-                           'Password': passwd_cliente,
-                           'NDs': pedido}
-
-    response_consulta = requests.get(url_consulta, parametros_consulta)
-    response_tratado = unescape(response_consulta.text)
-    soup = bs(response_tratado, "html.parser")
-    eventos = soup.findAll('evento')
-
-    for evento in soup.findAll('evento'):
-        datahora = evento.find('datahoraevento').get_text()
-        descricao = evento.find('descricao').get_text()
-        observacao = evento.find('observacao').get_text()
-        print(f'🚚 {datahora} - {descricao} - {observacao}')
-
-    return eventos
-
-
-if __name__ == '__main__':
-    pesocubagem = calcula_peso_cubagem(20, 20, 136)
-    print(pesocubagem)
-
-    print('0Oo..oO0 Frete Rodoviário')
-    frete_rodoviario = frete_rodoviario(20, 20, 136, 10,
-                                        '09220700',
-                                        '29215005',
-                                        2599.99)
-    print(frete_rodoviario)
-
-    print('0Oo..oO0 Frete Expresso')
-    frete_expresso = frete_expresso(20, 20, 136, 10,
-                                    '09220700',
-                                    '29215005',
-                                    2599.99)
-    print(frete_expresso)
-
-    #
-    # print('0Oo..oO0 Frete Expresso e Rodoviáreio')
-    # frete_geral = calcula_frete(20, 20, 136, 10,
-    #                             '09220700',
-    #                             '29215005',
-    #                             2450)
-    # print(frete_geral)
-
-    # print('0Oo..oO0 Eventos do pedido')
-    # eventos = consulta('10083675042426')
-    # print(eventos)
