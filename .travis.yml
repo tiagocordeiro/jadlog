@@ -11,5 +11,5 @@ script:
   - pycodestyle .
   - coverage run -m pytest -v --doctest-glob='*.md'
 #  - python -m doctest README.md jadlog/*.py -v
- after_success:
+after_success:
   - codecov
