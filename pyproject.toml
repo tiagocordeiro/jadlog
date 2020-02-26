@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "jadlog"
+version = "0.1.0"
+description = "Projeto simples para calculo de frete, cubagem e peso real para transportadora Jadlog"
+authors = ["Tiago Cordeiro <tiago@mulhergorila.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/tiagocordeiro/jadlog"
+homepage = "https://mulhergorila.com"
+classifiers=[
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: Portuguese (Brazilian)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+packages = [
+    {include = "jadlog"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+beautifulsoup4 = "^4.8.2"
+dynaconf = "^2.2.2"
+requests = "^2.23.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.3.5"
+flake8 = "^3.7.9"
+pytest-cov = "^2.8.1"
+responses = "^0.10.11"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

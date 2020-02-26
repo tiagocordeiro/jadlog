@@ -135,7 +135,7 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Framework :: Paste",
+        "Topic :: Software Development :: Libraries :: Python Modules"
     ],
     zip_safe=False,
     install_requires=[
