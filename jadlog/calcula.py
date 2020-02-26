@@ -18,7 +18,7 @@ headers = {'content-type': 'text/xml'}
 
 def peso_real(largura, altura, profundidade, modalidade, peso):
     """
-    Função que retorna o peso de cubagem para calculo de freter via Jadlog
+    Função que retorna o peso de cubagem para calculo de frete via Jadlog
 
     # Modalidades de Frete
     # Modalidade 0 = Expresso
@@ -32,9 +32,9 @@ def peso_real(largura, altura, profundidade, modalidade, peso):
     :return: Peso real de cubagem para Jadlog
     """
     _peso_cubagem = 0
-    if modalidade == '0':
+    if modalidade == 0:
         _peso_cubagem = largura * altura * profundidade / 6000
-    if modalidade == '4':
+    if modalidade == 4:
         _peso_cubagem = largura * altura * profundidade / 3333
 
     # Se o peso de cubagem for maior do que o real, ele deve ser usado
@@ -76,7 +76,8 @@ def peso_cubagem(largura, altura, profundidade):
             'Cubagem Rodoviario': peso_cubagem_rodoviario}
 
 
-def frete_expresso(largura, altura, profundidade, peso, cepo, cepd, valor_nf):
+def frete_expresso(largura, altura, profundidade, peso,
+                   cep_origen, cep_destino, valor_nf):
     """
     Função que retorna o valor do frete para a modalidade Expresso
 
@@ -84,8 +85,8 @@ def frete_expresso(largura, altura, profundidade, peso, cepo, cepd, valor_nf):
     :param altura: em centímetros
     :param profundidade: em centímetros
     :param peso: em Kg
-    :param cepo: CEP de origem (Ex: 09220700)
-    :param cepd: CEP de destino (Ex: 09210700)
+    :param cep_origen: CEP de origem (Ex: 09220700)
+    :param cep_destino: CEP de destino (Ex: 09210700)
     :param valor_nf: Valor da nota fiscal (Ex: 2450)
     :return: Retorna uma string com o valor do frete em BRL (reais)
     """
@@ -102,8 +103,8 @@ def frete_expresso(largura, altura, profundidade, peso, cepo, cepd, valor_nf):
                   'vSeguro': 'N',
                   'vVlDec': valor_nf,
                   'vVlColeta': '0,0',
-                  'vCepOrig': cepo,
-                  'vCepDest': cepd,
+                  'vCepOrig': cep_origen,
+                  'vCepDest': cep_destino,
                   'vPeso': _peso_real,
                   'vFrap': 'N',
                   'vEntrega': 'D',
@@ -117,8 +118,8 @@ def frete_expresso(largura, altura, profundidade, peso, cepo, cepd, valor_nf):
     return valor_frete
 
 
-def frete_rodoviario(largura, altura, profundidade, peso, cepo, cepd,
-                     valor_nf):
+def frete_rodoviario(largura, altura, profundidade, peso,
+                     cep_origen, cep_destino, valor_nf):
     """
     Função que retorna o valor do frete para a modalidade Rodoviário
 
@@ -126,8 +127,8 @@ def frete_rodoviario(largura, altura, profundidade, peso, cepo, cepd,
     :param altura: em centímetros
     :param profundidade: em centímetros
     :param peso: em Kg
-    :param cepo: CEP de origem (Ex: 09220700)
-    :param cepd: CEP de destino (Ex: 09210700)
+    :param cep_origen: CEP de origem (Ex: 09220700)
+    :param cep_destino: CEP de destino (Ex: 09210700)
     :param valor_nf: Valor da nota fiscal (Ex: 2450)
     :return: Retorna uma string com o valor do frete em BRL (reais)
     """
@@ -144,8 +145,8 @@ def frete_rodoviario(largura, altura, profundidade, peso, cepo, cepd,
                   'vSeguro': 'N',
                   'vVlDec': valor_nf,
                   'vVlColeta': '0,0',
-                  'vCepOrig': cepo,
-                  'vCepDest': cepd,
+                  'vCepOrig': cep_origen,
+                  'vCepDest': cep_destino,
                   'vPeso': _peso_real,
                   'vFrap': 'N',
                   'vEntrega': 'D',
@@ -159,7 +160,8 @@ def frete_rodoviario(largura, altura, profundidade, peso, cepo, cepd,
     return valor_frete
 
 
-def frete(largura, altura, profundidade, peso, cep_o, cep_d, valor_nf):
+def frete(largura, altura, profundidade, peso,
+          cep_origen, cep_destino, valor_nf):
     """
     Função que retorna o valor do frete para modalidades expresso e rodoviário
 
@@ -167,8 +169,8 @@ def frete(largura, altura, profundidade, peso, cep_o, cep_d, valor_nf):
     :param altura: em centímetros
     :param profundidade: em centímetros
     :param peso: em Kg
-    :param cepo: CEP de origem (Ex: 09220700)
-    :param cepd: CEP de destino (Ex: 09210700)
+    :param cep_origen: CEP de origem (Ex: 09220700)
+    :param cep_destino: CEP de destino (Ex: 09210700)
     :param valor_nf: Valor da nota fiscal (Ex: 2450)
     :return: Retorna XML
     """
@@ -192,26 +194,40 @@ def frete(largura, altura, profundidade, peso, cep_o, cep_d, valor_nf):
                            'vSeguro': 'N',
                            'vVlDec': valor_nf,
                            'vVlColeta': '0,0',
-                           'vCepOrig': cep_o,
-                           'vCepDest': cep_d,
+                           'vCepOrig': cep_origen,
+                           'vCepDest': cep_destino,
                            'vPeso': peso_real_expresso,
                            'vFrap': 'N',
                            'vEntrega': 'D',
                            'vCnpj': cnpj_cliente}
 
-    parametros_rodoviario = {'vModalidade': 0,
+    parametros_rodoviario = {'vModalidade': 4,
                              'Password': passwd_cliente,
                              'vSeguro': 'N',
                              'vVlDec': valor_nf,
                              'vVlColeta': '0,0',
-                             'vCepOrig': cep_o,
-                             'vCepDest': cep_d,
+                             'vCepOrig': cep_origen,
+                             'vCepDest': cep_destino,
                              'vPeso': peso_real_rodoviario,
                              'vFrap': 'N',
                              'vEntrega': 'D',
                              'vCnpj': cnpj_cliente}
 
     response_expresso = requests.get(url_cotacao, parametros_expresso)
-    response_rodoviario = requests.get(url_cotacao, parametros_rodoviario)
+    response_expresso_tratado = unescape(response_expresso.text)
+    soup_expresso = bs(response_expresso_tratado, "html.parser")
+    retorno_expresso = soup_expresso.findAll('retorno')
+    valor_frete_expresso = retorno_expresso[0].get_text()
 
-    return {response_expresso.content, response_rodoviario.content}
+    response_rodoviario = requests.get(url_cotacao, parametros_rodoviario)
+    response_rodoviario_tratado = unescape(response_rodoviario.text)
+    soup_rodoviario = bs(response_rodoviario_tratado, "html.parser")
+    retorno_rodoviario = soup_rodoviario.findAll('retorno')
+    valor_frete_rodoviario = retorno_rodoviario[0].get_text()
+
+    fretes_dict = {"frete": [
+        {"expresso": valor_frete_expresso},
+        {"rodoviario": valor_frete_rodoviario}
+    ]}
+
+    return fretes_dict
