@@ -3,6 +3,9 @@ Projeto simples para calculo de frete, cubagem e peso real para transportadora J
 
 [![Updates](https://pyup.io/repos/github/tiagocordeiro/jadlog/shield.svg)](https://pyup.io/repos/github/tiagocordeiro/jadlog/)
 [![Python 3](https://pyup.io/repos/github/tiagocordeiro/jadlog/python-3-shield.svg)](https://pyup.io/repos/github/tiagocordeiro/jadlog/)
+[![PyPI version fury.io](https://badge.fury.io/py/jadlog.svg)](https://pypi.python.org/pypi/jadlog/)
+[![PyPI format](https://img.shields.io/pypi/format/jadlog.svg)](https://pypi.python.org/pypi/jadlog/)
+[![PyPI status](https://img.shields.io/pypi/status/jadlog.svg)](https://pypi.python.org/pypi/jadlog/)
 [![Build Status](https://travis-ci.org/tiagocordeiro/jadlog.svg?branch=master)](https://travis-ci.org/tiagocordeiro/jadlog)
 ![Python application](https://github.com/tiagocordeiro/jadlog/workflows/Python%20application/badge.svg)
 [![codecov](https://codecov.io/gh/tiagocordeiro/jadlog/branch/master/graph/badge.svg)](https://codecov.io/gh/tiagocordeiro/jadlog)
