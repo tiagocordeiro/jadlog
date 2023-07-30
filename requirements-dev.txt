@@ -1,5 +1,5 @@
 pytest==5.3.5
-flake8==3.7.9
+flake8==6.1.0
 pytest-cov==2.8.1
 responses==0.10.11
 
