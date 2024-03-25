@@ -1,6 +1,6 @@
 pytest==5.3.5
 flake8==3.7.9
-pytest-cov==2.8.1
+pytest-cov==5.0.0
 responses==0.10.11
 
 -r requirements.txt
